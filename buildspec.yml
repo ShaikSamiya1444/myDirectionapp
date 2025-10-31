@@ -8,14 +8,18 @@ phases:
       - yum clean all
       - yum makecache
       - yum install -y nginx
+
   build:
     commands:
       - echo "Build started on $(date)"
       - mkdir -p output
-      - cp -r * output/
+      - echo "Copying files to output folder..."
+      - cp -r $(ls -A | grep -v output) output/ || true
+
   post_build:
     commands:
       - echo "Build completed successfully on $(date)"
+
 artifacts:
   files:
     - '**/*'
