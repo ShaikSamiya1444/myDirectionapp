@@ -1,20 +1,22 @@
 version: 0.2
+
 phases:
   install:
     commands:
-      - echo Installing NGINX
-      - yum update -y
-      - yum install nginx -y
+      - echo "Starting INSTALL phase"
+      - echo "Installing NGINX on Amazon Linux"
+      - yum clean all
+      - yum makecache
+      - yum install -y nginx
   build:
     commands:
-      - echo Building started on '$date'
-      - cp index.html /var/www/html/
-
+      - echo "Build started on $(date)"
+      - mkdir -p output
+      - cp -r * output/
   post_build:
     commands:
-      - echo Configuring NGINX
-      
+      - echo "Build completed successfully on $(date)"
 artifacts:
-  files: 
-   - '**/*'
-
+  files:
+    - '**/*'
+  base-directory: output
